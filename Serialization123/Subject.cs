@@ -7,13 +7,14 @@ using System.Xml.Serialization;
 
 namespace Serialization123
 {
+    [Serializable]
     public class Subject
     {
-        [XmlAttribute]
+     //   [XmlAttribute]
         public string? Name { get; set; }
-        [XmlAttribute]
+       // [XmlAttribute]
         public int Degree { get; set; }
-        [XmlAttribute]
+        //[XmlAttribute]
         public int Lessons { get; set; }
         public Subject()
         {

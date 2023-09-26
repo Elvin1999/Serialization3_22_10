@@ -1,8 +1,11 @@
 ﻿using System.Net.Http.Headers;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.Json;
+using Newtonsoft.Json;
 using System.Xml;
 using System.Xml.Serialization;
-
+using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace Serialization123
 {
@@ -93,95 +96,272 @@ namespace Serialization123
 
     #region XML Serialization
 
+    //class Program
+    //{
+    //    static void XmlSerialize()
+    //    {
+    //        var army = new TranslatorArmy
+    //        {
+    //            Name="Step IT Academy",
+    //            Location="Koroglu Rehimov 71",
+    //            Translators=new List<Translator>
+    //            {
+    //                new Translator(1, "Tural", "Eliyev")
+    //                {
+    //                    Subjects=new List<Subject>
+    //                    {
+    //                        new Subject
+    //                        {
+    //                            Name="C++",
+    //                            Degree=42,
+    //                            Lessons=68
+    //                        },
+    //                        new Subject
+    //                        {
+    //                            Name="C#",
+    //                            Degree=46,
+    //                            Lessons=64
+    //                        }
+    //                    }
+    //                },
+    //                new Translator(2, "Eli", "Mammadov")
+    //                {
+    //                    Subjects=new List<Subject>
+    //                    {
+    //                        new Subject
+    //                        {
+    //                            Name="Adobe Photoshop",
+    //                            Degree=42,
+    //                            Lessons=30
+    //                        },
+    //                        new Subject
+    //                        {
+    //                            Name="PHP",
+    //                            Degree=42,
+    //                            Lessons=35
+    //                        }
+    //                    }
+    //                },
+    //                new Translator(3, "Leyla", "Eliyeva")
+    //                {
+    //                    Subjects=new List<Subject>
+    //                    {
+    //                        new Subject
+    //                        {
+    //                            Name="HTML/CSS",
+    //                            Degree=42,
+    //                            Lessons=30
+    //                        },
+    //                        new Subject
+    //                        {
+    //                            Name="Angular 16",
+    //                            Degree=42,
+    //                            Lessons=35
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        };
+
+
+    //        var xml = new XmlSerializer(typeof(TranslatorArmy));
+    //        using (var fs = new FileStream("TranslatorArmy.xml", FileMode.OpenOrCreate)) 
+    //        {
+    //            xml.Serialize(fs, army);
+    //        }
+    //    }
+
+    //    static void XmlDeserialize()
+    //    {
+    //        TranslatorArmy army = null;
+    //        var xml = new XmlSerializer(typeof(TranslatorArmy));
+    //        using (var fs=new FileStream("TranslatorArmy.xml",FileMode.OpenOrCreate))
+    //        {
+    //            army = xml.Deserialize(fs) as TranslatorArmy;
+    //        }
+    //       // Console.WriteLine(army);
+    //    }
+    //    static void Main(string[] args)
+    //    {
+    //        //XmlSerialize();
+    //        XmlDeserialize();
+    //    }
+    //}
+
+    #endregion
+
+    #region BinarySerializer
+
+    //class Program
+    //{
+    //    static void BinarySerialize()
+    //    {
+    //        var army = new TranslatorArmy
+    //        {
+    //            Name = "Step IT Academy",
+    //            Location = "Koroglu Rehimov 71",
+    //            Translators = new List<Translator>
+    //            {
+    //                new Translator(1, "Tural", "Eliyev")
+    //                {
+    //                    Subjects=new List<Subject>
+    //                    {
+    //                        new Subject
+    //                        {
+    //                            Name="C++",
+    //                            Degree=42,
+    //                            Lessons=68
+    //                        },
+    //                        new Subject
+    //                        {
+    //                            Name="C#",
+    //                            Degree=46,
+    //                            Lessons=64
+    //                        }
+    //                    }
+    //                },
+    //                new Translator(2, "Eli", "Mammadov")
+    //                {
+    //                    Subjects=new List<Subject>
+    //                    {
+    //                        new Subject
+    //                        {
+    //                            Name="Adobe Photoshop",
+    //                            Degree=42,
+    //                            Lessons=30
+    //                        },
+    //                        new Subject
+    //                        {
+    //                            Name="PHP",
+    //                            Degree=42,
+    //                            Lessons=35
+    //                        }
+    //                    }
+    //                },
+    //                new Translator(3, "Leyla", "Eliyeva")
+    //                {
+    //                    Subjects=new List<Subject>
+    //                    {
+    //                        new Subject
+    //                        {
+    //                            Name="HTML/CSS",
+    //                            Degree=42,
+    //                            Lessons=30
+    //                        },
+    //                        new Subject
+    //                        {
+    //                            Name="Angular 16",
+    //                            Degree=42,
+    //                            Lessons=35
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        };
+
+    //        var bf = new BinaryFormatter();
+    //        using (var fs=new FileStream("file.bin",FileMode.OpenOrCreate))
+    //        {
+    //            bf.Serialize(fs, army);
+    //        }
+    //        Console.WriteLine("Ready");
+    //    }
+    //    static void BinaryDeserialize()
+    //    {
+    //        TranslatorArmy army = null;
+    //        var bf = new BinaryFormatter();
+    //        using (var fs=new FileStream("file.bin",FileMode.OpenOrCreate))
+    //        {
+    //            army = bf.Deserialize(fs) as TranslatorArmy;
+    //            Console.WriteLine(army);
+    //        }
+    //    }
+    //    static void Main(string[] args)
+    //    {
+    //        //BinarySerialize();
+    //        BinaryDeserialize();
+    //    }
+    //}
+
+    #endregion
+
+    #region Json Serialization
+
     class Program
     {
-        static void XmlSerialize()
-        {
-            var army = new TranslatorArmy
+        public static List<Car> Cars = new List<Car>
             {
-                Name="Step IT Academy",
-                Location="Koroglu Rehimov 71",
-                Translators=new List<Translator>
+                new Car
                 {
-                    new Translator(1, "Tural", "Eliyev")
-                    {
-                        Subjects=new List<Subject>
-                        {
-                            new Subject
-                            {
-                                Name="C++",
-                                Degree=42,
-                                Lessons=68
-                            },
-                            new Subject
-                            {
-                                Name="C#",
-                                Degree=46,
-                                Lessons=64
-                            }
-                        }
-                    },
-                    new Translator(2, "Eli", "Mammadov")
-                    {
-                        Subjects=new List<Subject>
-                        {
-                            new Subject
-                            {
-                                Name="Adobe Photoshop",
-                                Degree=42,
-                                Lessons=30
-                            },
-                            new Subject
-                            {
-                                Name="PHP",
-                                Degree=42,
-                                Lessons=35
-                            }
-                        }
-                    },
-                    new Translator(3, "Leyla", "Eliyeva")
-                    {
-                        Subjects=new List<Subject>
-                        {
-                            new Subject
-                            {
-                                Name="HTML/CSS",
-                                Degree=42,
-                                Lessons=30
-                            },
-                            new Subject
-                            {
-                                Name="Angular 16",
-                                Degree=42,
-                                Lessons=35
-                            }
-                        }
-                    }
+                    Model="Mustang",
+                    Vendor="Ford",
+                    Year=1964
+                },
+                new Car
+                {
+                    Model="Charger",
+                    Vendor="Dodge",
+                    Year=1961
+                },
+                new Car
+                {
+                    Model="Veyron",
+                    Vendor="Bugatti",
+                    Year=2020
                 }
             };
-
-
-            var xml = new XmlSerializer(typeof(TranslatorArmy));
-            using (var fs = new FileStream("TranslatorArmy.xml", FileMode.OpenOrCreate)) 
+        static void WriteJson()
+        {
+            var serializer = new JsonSerializer();
+            using (var sw = new StreamWriter("cars.json"))
             {
-                xml.Serialize(fs, army);
+                using (var jw = new JsonTextWriter(sw))
+                {
+                    jw.Formatting = Newtonsoft.Json.Formatting.Indented;
+                    serializer.Serialize(jw, Cars);
+                }
             }
         }
 
-        static void XmlDeserialize()
+        static List<Car> ReadJson()
         {
-            TranslatorArmy army = null;
-            var xml = new XmlSerializer(typeof(TranslatorArmy));
-            using (var fs=new FileStream("TranslatorArmy.xml",FileMode.OpenOrCreate))
+            var serializer = new JsonSerializer();
+            using (var sr = new StreamReader("cars.json"))
             {
-                army = xml.Deserialize(fs) as TranslatorArmy;
+                using (var jr = new JsonTextReader(sr))
+                {
+                    var cars = serializer.Deserialize<List<Car>>(jr);
+                    return cars;
+                }
             }
-           // Console.WriteLine(army);
         }
         static void Main(string[] args)
         {
-            //XmlSerialize();
-            XmlDeserialize();
+            if (!File.Exists("cars.json"))
+            {
+                WriteJson();
+            }
+           // Cars = ReadJson();
+            //foreach (var item in Cars)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+            //Cars.Add(new Car
+            //{
+            //    Year = 2002,
+            //    Model = "Supra",
+            //    Vendor = "Toyota"
+            //});
+
+           // WriteJson();
+
+            Cars = ReadJson();
+            foreach (var item in Cars)
+            {
+                Console.WriteLine(item);
+            }
+
         }
     }
 

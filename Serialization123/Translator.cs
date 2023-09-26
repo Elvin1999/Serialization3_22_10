@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Serialization123
 {
+    [Serializable]
     public class Translator
     {
         public List<Subject>? Subjects { get; set; }
